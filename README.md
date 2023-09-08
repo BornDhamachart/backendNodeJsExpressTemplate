@@ -1,106 +1,156 @@
-This is template to initialize backend projects
-NodeJS + Express + Typescript
+Template to initialize a backend project using Node.js, Express, TypeScript, and related libraries:
 
-Follow this step
---Install typescript
+### Step 1: Install Dependencies
+
+```bash
+# Install TypeScript, Express, and related dependencies
 yarn add express ts-node tsconfig-paths
 yarn add --dev typescript ts-node-dev @types/node @types/express
 npx tsc --init
 yarn add cors
 yarn add --dev @types/cors
+```
 
---create .gitignore + add 
+### Step 2: Create .gitignore
+
+Create a `.gitignore` file and add the following lines:
+
+```
 node_modules
 .env
 yarn-error.log
+```
 
---add in package.json
+### Step 3: Update package.json
+
+Update your `package.json` with the project details and scripts:
+
+```json
 {
   "name": "workshop-backend",
   "version": "1.0.0",
-  ...
-}
-
---add script in package.json
-
-{
-  ...
   "scripts": {
     "dev": "ts-node-dev -r tsconfig-paths/register src/main.ts",
     "start": "ts-node -r tsconfig-paths/register src/main"
   },
-  ...
+  // ...other package.json settings
 }
+```
 
---create src/main.ts
+### Step 4: Create src/main.ts
 
---start project by yarn dev / yarn start
+Create a `src/main.ts` file for your main application code.
 
-------------------------------------------------------------------------
+### Step 5: Start the Project
 
---install validate library
+You can start the project using either of the following commands:
+
+```bash
+# Development mode with auto-reload
+yarn dev
+
+# Production mode
+yarn start
+```
+
+### Step 6: Install Validation Library
+
+```bash
+# Install validation libraries
 yarn add io-ts io-ts-extra fp-ts
+```
 
+### Step 7: Install PostgreSQL Connection
 
---install lib to connect to PostgresSQL
+```bash
+# Install PostgreSQL and its types
 yarn add pg
 yarn add --dev @types/pg
+```
 
---install Prisma ORM
+### Step 8: Install Prisma ORM
+
+```bash
+# Install Prisma and initialize it
 yarn add --dev prisma
 yarn add @yarnpkg/pnpify
 npx prisma init --datasource-provider postgresql
+```
 
---create .env and add environment variables
+### Step 9: Create .env File
+
+Create a `.env` file and add your environment variables:
+
+```
 DATABASE_URL="postgresql://postgres:password@localhost:5432/postgres?schema=xxxxxxx"
-(This may be any link up to database that we use)
+```
 
---create prisma/schema index.prisma test.prisma(this name up to project)
+### Step 10: Create Prisma Schema Files
 
---add script to package.json
+Create Prisma schema files (e.g., `index.prisma` and `test.prisma`) based on your project requirements.
+
+### Step 11: Update package.json Scripts
+
+Add the following scripts to your `package.json`:
+
+```json
 "scripts": {
-    ...
+    // ...other scripts
     "prisma:merge": "cat prisma/schema/**.prisma > prisma/schema.prisma",
     "prisma:format": "npx prisma format",
     "prisma:migrate": "yarn pnpify migrate dev --name init --schema prisma/schema.prisma",
     "prisma:generate": "yarn pnpify prisma generate --schema=prisma/schema.prisma"
-  }
+}
+```
 
-Explain 
-prisma:merge => Combine code from index.prisma and test1.prisma together and add to schema.prisma
-prisma:format => Format and check code
-prisma:migrate => Migrate new schema to database 
-prisma:generate => Generate all connection that build with prisma such as create connect etc.
+### Explanation of Prisma Scripts:
 
-This flow should run in this order every time that we change schema
+- `prisma:merge`: Combines code from `index.prisma` and `test1.prisma` together and adds them to `schema.prisma`.
+- `prisma:format`: Formats and checks Prisma code.
+- `prisma:migrate`: Migrates the new schema to the database.
+- `prisma:generate`: Generates code for connections built with Prisma (e.g., creating connections).
 
---install jest for unit testing
+These scripts should be run in this order every time you change the schema.
+
+### Step 12: Install Jest for Unit Testing
+
+```bash
+# Install Jest and related libraries for unit testing
 yarn add --dev jest ts-jest @types/jest
+```
 
---add file jest.config.ts
+### Step 13: Create jest.config.ts
 
---add script to package.json
-  "scripts": {
-    ...
+Create a `jest.config.ts` file for Jest configuration.
+
+### Step 14: Update package.json Scripts for Testing
+
+Add the following scripts for running tests:
+
+```json
+"scripts": {
+    // ...other scripts
     "test": "jest --verbose",
     "test:xxxx": "jest -- src/xxxx"
-  }
+}
+```
 
-  the name is up to project
+Replace `xxxx` with your project name or specific test suite names.
 
-  ------------------------------------------------------------------------
+### Step 15: Project Structure
 
---add 
-routes.ts => this will be collection path of all API
-folder test1API
--resolver.ts => start with this, this file will be the one to connect to database via prisma
--handler.ts => this will check codec of input and mange response with/without error
--interface.ts => declare type
--spec.ts => test each API response
+Your project structure should include the following:
 
+- `routes.ts`: Collects paths for all APIs.
+- `test1API` folder containing:
+  - `resolver.ts`: Connects to the database via Prisma.
+  - `handler.ts`: Handles API requests, checks input codecs, and manages responses.
+  - `interface.ts`: Declares types/interfaces.
+  - `spec.ts`: Contains tests for each API response.
 
-If clone this project to use pls change these things
-1.Schema at test.prisma => change file name and add schema detail inside
-2.in .env => change DATABASE_URL to your URL
-3.Package.json => change "test:xxxxx": "jest -- src/xxxxx" to your project name this will ticker wile .spec.ts in src folder
-4.Start with resolver file write code to connect db then interface to mange input then handler then route.ts and lastly spec.ts to test
+When cloning the project, make the following changes:
+
+1. Update the schema in `test.prisma` by changing the file name and adding schema details.
+2. In the `.env` file, change `DATABASE_URL` to your own database URL.
+3. In `package.json`, change `"test:xxxxx"` to your project name or specific test suite names.
+4. Start by writing code in the resolver file to connect to the database, then create an interface to manage input, followed by the handler, route.ts, and finally spec.ts to test the APIs.
